@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   resources :users
   resources :chats
   resources :messages
-  # mount ActionCable.server => '/chat'
+  mount ActionCable.server => '/chat'
   mount ActionCable.server => '/newuser'
 end
