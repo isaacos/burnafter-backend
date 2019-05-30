@@ -4,8 +4,9 @@ class ChatsController < ApplicationController
     Message.create(chat_id: chat.id, user_id: chat.first_user, text: 'has entered the chat')
     Message.create(chat_id: chat.id, user_id: chat.second_user, text: 'has entered the chat')
     serialized_data = ActiveModelSerializers::Adapter::Json.new(ChatSerializer.new(chat)).serializable_hash
-    ActionCable.server.broadcast("chat_channel", serialized_data)
-    #render json: serialized_data
+    recipient = User.find_by(id: chat.second_user)
+    ChatChannel.broadcast_to(recipient, serialized_data)
+    render json: serialized_data
   end
 
   private
