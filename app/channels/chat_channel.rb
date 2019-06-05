@@ -6,5 +6,7 @@ class ChatChannel < ApplicationCable::Channel
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
+    user = User.find_by(id: params[:user_id])
+    user.unsubscribe()
   end
 end
