@@ -11,6 +11,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:chat_id, :user_id, :text)
+    params.require(:message).permit(:chat_id, :user_id, :chat_unique_string, :text)
   end
 end
