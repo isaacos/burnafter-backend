@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_28_214859) do
+ActiveRecord::Schema.define(version: 2019_06_20_160904) do
 
   create_table "chats", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "first_user"
     t.integer "second_user"
+    t.string "unique_string"
+    t.index ["unique_string"], name: "index_chats_on_unique_string"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -25,6 +27,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_214859) do
     t.datetime "updated_at", null: false
     t.text "text"
     t.integer "user_id"
+    t.string "chat_unique_string"
   end
 
   create_table "users", force: :cascade do |t|
