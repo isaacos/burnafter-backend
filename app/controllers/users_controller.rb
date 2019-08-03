@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    Thread.new { @user.set_time_until_deletion } #makes the countdown until logout run concurrently 
+    Thread.new { @user.set_time_until_deletion } #makes the countdown until logout run concurrently
     render json: @user
   end
 
@@ -22,7 +22,6 @@ class UsersController < ApplicationController
     Message.left_outer_joins(:chat).where(chats: {id: nil}).delete_all
     @user.destroy
     @users = User.all
-    ActionCable.server.broadcast("users_channel", @users)
     render json: @users
   end
 
