@@ -4,10 +4,10 @@ class User < ApplicationRecord
   @time_until_deletion = 0
 
   def set_time_until_deletion
-    @time_until_deletion = 30
+    @time_until_deletion = 60
     while @time_until_deletion > 0
       @time_until_deletion -= 1
-      sleep 1
+      sleep 60
       if @time_until_deletion == 0
         self.destroy
       end

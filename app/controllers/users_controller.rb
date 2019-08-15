@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    Thread.new { @user.set_time_until_deletion } #makes the countdown until logout run concurrently
+    @@set_time_thread = Thread.new { @user.set_time_until_deletion } #makes the countdown until logout run concurrently
     render json: @user
   end
 
@@ -23,6 +23,13 @@ class UsersController < ApplicationController
     @user.destroy
     @users = User.all
     render json: @users
+  end
+
+  def postpone_delete
+    @@set_time_thread.exit #kills the thread that was set in the create function
+    @user = User.find(params[:id])
+    @@set_time_thread = Thread.new { @user.set_time_until_deletion }
+    render json: {ok: 'postpone successful'}
   end
 
   private
