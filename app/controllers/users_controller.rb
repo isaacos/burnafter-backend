@@ -15,10 +15,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     chats = @user.chats
     chats.each do |chat|
-      message = Message.create(chat_id: chat.id, user_id: @user.id, chat_unique_string: chat.unique_string, text: 'chat closed')
+      message = Message.create(chat_id: chat.id, user_id: @user.name, chat_unique_string: chat.unique_string, text: 'chat closed')
       MessageChannel.broadcast_to(chat, message)
     end
-    Chat.where('`chats`.`first_user` IN (?) OR `chats`.`second_user` IN (?)', @user.id, @user.id).delete_all
+    Chat.where('`chats`.`first_user` IN (?) OR `chats`.`second_user` IN (?)', @user.name, @user.name).delete_all
     Message.left_outer_joins(:chat).where(chats: {id: nil}).delete_all
     @user.destroy
     @users = User.all
