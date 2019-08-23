@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  # self.primary_key = "name"
   has_many :messages
   has_many :chats, through: :messages
   @time_until_deletion = 0
